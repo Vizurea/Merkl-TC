@@ -1,0 +1,103 @@
+pablo@LAPTOP-TJPTOO0T:~/Merkl/Merkl-TC/Part1$ semgrep --config auto .
+
+┌──── ○○○ ────┐
+│ Semgrep CLI │
+└─────────────┘
+
+⠏ Loading rules from registry...                                                                                                            
+Scanning 4 files (only git-tracked) with:
+                                      
+✔ Semgrep OSS
+  ✔ Basic security coverage for first-party code vulnerabilities.
+                                              
+✔ Semgrep Code (SAST)
+  ✔ Find and fix vulnerabilities in the code you write with advanced scanning and expert security rules.
+                                                     
+✘ Semgrep Supply Chain (SCA)
+  ✘ Find and fix the reachable vulnerabilities in your OSS dependencies.
+ 
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:02                                                                                                                        
+                   
+                   
+┌─────────────────┐
+│ 2 Code Findings │
+└─────────────────┘
+                          
+    main.py
+    ❯❱ python.lang.security.audit.eval-detected.eval-detected
+          ❰❰ Blocking ❱❱
+          Detected the use of eval(). eval() can be dangerous if used to evaluate dynamic content. If this 
+          content can be input from outside the program, this may be a code injection vulnerability. Ensure
+          evaluated content is not definable by external sources.                                          
+          Details: https://sg.run/ZvrD                                                                     
+                                                                                                           
+           30┆ age = eval(
+           31┆     f"{today.year} - {birthdate[2]} - (({today.month}, {today.day}) <
+               (int('{birthdate[1]}'), int('{birthdate[0]}')))"                     
+           32┆ )
+   
+   ❯❯❱ python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query
+          ❰❰ Blocking ❱❱
+          Avoiding SQL string concatenation: untrusted input concatenated with raw SQL query can result in SQL
+          Injection. In order to execute raw query safely, prepared statement should be used. SQLAlchemy      
+          provides TextualSQL to easily used prepared statement with named parameters. For complex SQL        
+          composition, use SQL Expression Language or Schema Definition Language. In most cases, SQLAlchemy   
+          ORM will be a better option.                                                                        
+          Details: https://sg.run/2b1L                                                                        
+                                                                                                              
+           51┆ cursor.execute("DELETE FROM users WHERE id = " + user_id) # This line is vulnerable to
+               SQL injection                                                                         
+
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 2 (2 blocking)
+ • Rules run: 1198
+ • Targets scanned: 4
+ • Parsed lines: ~100.0%
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 1198 rules on 4 files: 2 findings.
+
+=================================================================================================
+
+pablo@LAPTOP-TJPTOO0T:~/Merkl/Merkl-TC/Part1$ semgrep --config p/python .
+
+┌──── ○○○ ────┐
+│ Semgrep CLI │
+└─────────────┘
+
+⠇ Loading rules from registry...                                                                                                            
+Scanning 4 files (only git-tracked) with 1069 Code rules:
+            
+  CODE RULES
+  Scanning 1 file with 1066 python rules.
+                    
+  SUPPLY CHAIN RULES
+                                                       
+  💎 Run `semgrep ci` to find dependency
+     vulnerabilities and advanced cross-file findings. 
+                                                       
+          
+  PROGRESS
+   
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00                                                                                                                        
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 0 (0 blocking)
+ • Rules run: 1066
+ • Targets scanned: 1
+ • Parsed lines: ~100.0%
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 1066 rules on 1 file: 0 findings.
+
+✨ If Semgrep missed a finding, please send us feedback to let us know!
+   See https://semgrep.dev/docs/reporting-false-negatives/

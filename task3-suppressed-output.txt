@@ -1,0 +1,89 @@
+pablo@LAPTOP-TJPTOO0T:~/Merkl/Merkl-TC/Part1$ semgrep --config auto .
+
+┌──── ○○○ ────┐
+│ Semgrep CLI │
+└─────────────┘
+
+Scanning 5 files (only git-tracked) with:
+                                      
+✔ Semgrep OSS
+  ✔ Basic security coverage for first-party code vulnerabilities.
+                                              
+✔ Semgrep Code (SAST)
+  ✔ Find and fix vulnerabilities in the code you write with advanced scanning and expert security rules.
+                                                     
+✘ Semgrep Supply Chain (SCA)
+  ✘ Find and fix the reachable vulnerabilities in your OSS dependencies.
+ 
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:02                                                                                                                        
+                  
+                  
+┌────────────────┐
+│ 1 Code Finding │
+└────────────────┘
+                          
+    main.py
+   ❯❯❱ python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query
+          ❰❰ Blocking ❱❱
+          Avoiding SQL string concatenation: untrusted input concatenated with raw SQL query can result in SQL
+          Injection. In order to execute raw query safely, prepared statement should be used. SQLAlchemy      
+          provides TextualSQL to easily used prepared statement with named parameters. For complex SQL        
+          composition, use SQL Expression Language or Schema Definition Language. In most cases, SQLAlchemy   
+          ORM will be a better option.                                                                        
+          Details: https://sg.run/2b1L                                                                        
+                                                                                                              
+           52┆ cursor.execute("DELETE FROM users WHERE id = " + user_id) # This line is vulnerable to
+               SQL injection                                                                         
+
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 1 (1 blocking)
+ • Rules run: 1198
+ • Targets scanned: 5
+ • Parsed lines: ~100.0%
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 1198 rules on 5 files: 1 finding.
+
+=================================================================================================
+
+pablo@LAPTOP-TJPTOO0T:~/Merkl/Merkl-TC/Part1$ semgrep --config p/python .
+
+┌──── ○○○ ────┐
+│ Semgrep CLI │
+└─────────────┘
+
+Scanning 5 files (only git-tracked) with 1069 Code rules:
+            
+  CODE RULES
+  Scanning 1 file with 1066 python rules.
+                    
+  SUPPLY CHAIN RULES
+                                                       
+  💎 Run `semgrep ci` to find dependency
+     vulnerabilities and advanced cross-file findings. 
+                                                       
+          
+  PROGRESS
+   
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00                                                                                                                        
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 0 (0 blocking)
+ • Rules run: 1066
+ • Targets scanned: 1
+ • Parsed lines: ~100.0%
+ • Scan was limited to files tracked by git
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 1066 rules on 1 file: 0 findings.
+
+✨ If Semgrep missed a finding, please send us feedback to let us know!
+   See https://semgrep.dev/docs/reporting-false-negatives/

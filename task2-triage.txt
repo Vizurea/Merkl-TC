@@ -1,0 +1,11 @@
+Finding 1
+- Rule ID: python.lang.security.audit.eval-detected.eval-detected
+- File/Line: main.py:30
+- This is a security issue because: Using eval() on data influenced by user input can execute arbitrary Python code and lead to remote code execution.
+- True positive, because the age expression is evaluated dynamically from user-provided birthday fields.
+
+Finding 2
+- Rule ID: python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query
+- File/Line: main.py:51
+- This is a security issue because: Building a SQL query by string concatenation allows malicious input to alter the query logic and perform SQL injection.
+- True positive, because user_id comes from input() and is concatenated directly into the DELETE query. Here, the user can simply delete the database.
