@@ -19,6 +19,7 @@ jobs:
       - name: Run Semgrep
         run: semgrep --config auto --severity=ERROR --error . >  semgrep-report.txt
       - name: Upload Semgrep report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: semgrep-report.txt
+          path: semgrep-report.txt
