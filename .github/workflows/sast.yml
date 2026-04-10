@@ -1,0 +1,24 @@
+name: SAST
+on:
+    push:
+    pull_request:
+        branches:
+            - main
+jobs:
+  sast:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: setup python
+        uses: actions/setup-python@v4
+      - name: setup node
+        uses: actions/setup-node@v3
+      - name: Install Semgrep
+        run: pip install semgrep
+      - name: Run Semgrep
+        run: semgrep --config auto --severity=ERROR --error . >  semgrep-report.txt
+      - name: Upload Semgrep report
+        uses: actions/upload-artifact@v3
+        with:
+          name: semgrep-report.txt
