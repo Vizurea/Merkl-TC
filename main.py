@@ -21,7 +21,6 @@ def create_database():
     print("Database created successfully.")
     return conn
 
-
 def insert_user(conn):
     cursor = conn.cursor()
     name = input("Name : ")
@@ -40,11 +39,15 @@ def insert_user(conn):
 
 def affiche_users(conn):
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM users")
+    user_input = input("Enter a name to search for: ")
+    query = "SELECT * FROM users WHERE name = " + user_input
+    cursor.execute(query)
     users = cursor.fetchall()
-    for user in users:
-        print(f"ID: {user[0]}, Name: {user[1]}, Age: {user[2]}")
-
+    if users:
+        for user in users:
+            print(f"ID: {user[0]}, Name: {user[1]}, Age: {user[2]}")
+    else:
+        print("No users found.")
 
 def supprimer_user(conn):
     user_id = input("Enter the ID of the user to delete: ")
