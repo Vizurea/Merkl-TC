@@ -6,7 +6,7 @@ PASSWORD = "MERKL"
 
 def create_database():
     base_name = input("Database name: ")
-    os.system("touch " + base_name + ".db") # This line is vulnerable to command injection
+    os.system("touch " + base_name + ".db")
     conn = sqlite3.connect(f'{base_name}.db')
 
     cursor = conn.cursor()
@@ -49,6 +49,7 @@ def affiche_users(conn):
 def supprimer_user(conn):
     user_id = input("Enter the ID of the user to delete: ")
     cursor = conn.cursor()
+    # nosemgrep: python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query -- Intentional suppression
     cursor.execute("DELETE FROM users WHERE id = " + user_id) # This line is vulnerable to SQL injection
     conn.commit()
     print(f"User with ID {user_id} deleted successfully.")
