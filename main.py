@@ -5,9 +5,8 @@ from datetime import date
 PASSWORD = "MERKL"
 
 def create_database():
-    base_name = input("Database name: ")
-    os.system("touch " + base_name + ".db")
-    conn = sqlite3.connect(f'{base_name}.db')
+    os.system("touch database.db") # This line is vulnerable to command injection
+    conn = sqlite3.connect("database.db")
 
     cursor = conn.cursor()
     cursor.execute("""
@@ -29,7 +28,7 @@ def insert_user(conn):
     # nosemgrep: python.lang.security.audit.eval-detected.eval-detected -- Intentional suppression
     age = eval(
         f"{today.year} - {birthdate[2]} - (({today.month}, {today.day}) < (int('{birthdate[1]}'), int('{birthdate[0]}')))"
-    )
+    ) # This line is vulnerable to SQL injection
     cursor.execute("""
     INSERT INTO users (name, age) VALUES (?, ?)
     """, (name, age))
@@ -39,9 +38,7 @@ def insert_user(conn):
 
 def affiche_users(conn):
     cursor = conn.cursor()
-    user_input = input("Enter a name to search for: ")
-    query = "SELECT * FROM users WHERE name = " + user_input
-    cursor.execute(query)
+    cursor.execute("SELECT * FROM users")
     users = cursor.fetchall()
     if users:
         for user in users:
@@ -52,7 +49,6 @@ def affiche_users(conn):
 def supprimer_user(conn):
     user_id = input("Enter the ID of the user to delete: ")
     cursor = conn.cursor()
-    # nosemgrep: python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query -- Intentional suppression
     cursor.execute("DELETE FROM users WHERE id = " + user_id) # This line is vulnerable to SQL injection
     conn.commit()
     print(f"User with ID {user_id} deleted successfully.")
@@ -60,15 +56,19 @@ def supprimer_user(conn):
 
 def main():
     if (input("password : ") == PASSWORD):
+        print("================================")
         print("Access granted.")
+        print("================================")
         conn = create_database()
         while True:
+            print("\n")
             print("1. Display Users")
             print("2. Insert User")
             print("3. Delete User")
             print("4. Exit")
             choice = input("Enter your choice: ")
-
+            
+            print("\n================================")
             if choice == '1':
                 affiche_users(conn)
             elif choice == '2':
@@ -81,6 +81,7 @@ def main():
                 break
             else:
                 print("Invalid choice. Please try again.")
+            print()
         conn.close()
     else :
         print("Access denied.")

@@ -31,10 +31,10 @@ Scanning 4 files (only git-tracked) with:
           evaluated content is not definable by external sources.                                          
           Details: https://sg.run/ZvrD                                                                     
                                                                                                            
-           30┆ age = eval(
-           31┆     f"{today.year} - {birthdate[2]} - (({today.month}, {today.day}) <
+           28┆ age = eval(
+           29┆     f"{today.year} - {birthdate[2]} - (({today.month}, {today.day}) <
                (int('{birthdate[1]}'), int('{birthdate[0]}')))"                     
-           32┆ )
+           30┆ )
    
    ❯❯❱ python.sqlalchemy.security.sqlalchemy-execute-raw-query.sqlalchemy-execute-raw-query
           ❰❰ Blocking ❱❱

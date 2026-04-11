@@ -1,6 +1,6 @@
 Finding 1
 - Rule ID: python.lang.security.audit.eval-detected.eval-detected
-- File/Line: main.py:30
+- File/Line: main.py:29
 - This is a security issue because: Using eval() on data influenced by user input can execute arbitrary Python code and lead to remote code execution.
 - True positive, because the age expression is evaluated dynamically from user-provided birthday fields.
 
