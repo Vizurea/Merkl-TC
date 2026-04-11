@@ -13,6 +13,7 @@ Merkl-TC/
 	task3-suppressed-output.txt
   resources/artifacts.png
   resources/summary.png
+  resources/semgrep-report.txt
 	.github/workflows/sast.yml
 ```
 
