@@ -5,7 +5,7 @@ from datetime import date
 PASSWORD = "MERKL"
 
 def create_database():
-    os.system("touch database.db") # This line is vulnerable to command injection
+    os.system("touch database.db")
     conn = sqlite3.connect("database.db")
 
     cursor = conn.cursor()
